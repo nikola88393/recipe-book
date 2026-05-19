@@ -1,0 +1,195 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── Google Fonts ─────────────────────────────────────────────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,500;1,7..72,400;1,7..72,500&family=Libre+Franklin:wght@400;500&display=swap');
+
+@layer base {
+  :root {
+    --background: #fbf9f2;
+    --foreground: #1b1c18;
+    --card: #faf9f5;
+    --card-foreground: #1b1c18;
+    --popover: #faf9f5;
+    --popover-foreground: #1b1c18;
+    --primary: #3b6840;
+    --primary-foreground: #ffffff;
+    --secondary: #e2dfdd;
+    --secondary-foreground: #4d4c48;
+    --muted: #efeee7;
+    --muted-foreground: #5e5d59;
+    --accent: #94c595;
+    --accent-foreground: #002108;
+    --destructive: #ba1a1a;
+    --destructive-foreground: #ffffff;
+    --border: #f0eee6;
+    --input: #faf9f5;
+    --ring: #3b6840;
+    --radius: 0.5rem;
+  }
+
+  * {
+    @apply border-border;
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: #fbf9f2;
+    color: #1b1c18;
+    font-family: 'Libre Franklin', Arial, sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Literata', Georgia, serif;
+    font-weight: 500;
+    letter-spacing: normal;
+  }
+}
+
+/* ── Shadow utilities ─────────────────────────────────────────────────────── */
+@layer utilities {
+  .ring-shadow {
+    box-shadow: 0px 0px 0px 1px #d1cfc5;
+  }
+  .whisper-shadow {
+    box-shadow: 0 10px 24px -4px rgba(0, 0, 0, 0.05);
+  }
+  .whisper-shadow-lg {
+    box-shadow: 0 24px 48px -8px rgba(0, 0, 0, 0.07);
+  }
+  .float-shadow {
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+  }
+  .pb-safe {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+}
+
+/* ── Component classes ────────────────────────────────────────────────────── */
+@layer components {
+  /* ── Typography ──────────────────────────────────────────────────── */
+  .hero-title {
+    font-family: 'Literata', Georgia, serif;
+    font-size: clamp(36px, 6vw, 64px);
+    font-weight: 500;
+    line-height: 1.1;
+  }
+
+  .section-title {
+    font-family: 'Literata', Georgia, serif;
+    font-size: clamp(28px, 4vw, 52px);
+    font-weight: 500;
+    line-height: 1.2;
+  }
+
+  .sub-heading {
+    font-family: 'Literata', Georgia, serif;
+    font-size: 32px;
+    font-weight: 500;
+    line-height: 1.25;
+  }
+
+  .feature-title {
+    font-family: 'Literata', Georgia, serif;
+    font-size: 21px;
+    font-weight: 500;
+    line-height: 1.2;
+  }
+
+  .overline-text {
+    font-family: 'Libre Franklin', Arial, sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  /* ── Buttons ─────────────────────────────────────────────────────── */
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 font-medium text-sm px-5 py-2.5 rounded-md ring-shadow transition-all duration-200;
+    font-family: 'Libre Franklin', Arial, sans-serif;
+    background-color: #94c595;
+    color: #26522d;
+  }
+  .btn-primary:hover {
+    background-color: #83c892;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 bg-warm-sand text-charcoal-warm font-franklin font-medium text-sm px-4 py-2.5 rounded ring-shadow hover:shadow-ring-deep transition-all duration-200;
+    font-family: 'Libre Franklin', Arial, sans-serif;
+  }
+
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 text-charcoal-warm font-franklin font-medium text-sm px-3 py-2 rounded hover:bg-warm-sand transition-colors duration-200;
+    font-family: 'Libre Franklin', Arial, sans-serif;
+  }
+
+  /* ── Cards ───────────────────────────────────────────────────────── */
+  .card-standard {
+    @apply bg-ivory rounded-lg ring-shadow whisper-shadow p-6;
+  }
+
+  .card-recipe {
+    @apply bg-ivory rounded-lg ring-shadow whisper-shadow p-6 flex flex-col gap-4 transition-all duration-300;
+  }
+  .card-recipe:hover {
+    box-shadow: 0px 0px 0px 1px #c2c0b6, 0 12px 32px -4px rgba(0,0,0,0.08);
+    transform: translateY(-2px);
+  }
+
+  /* ── Inputs ──────────────────────────────────────────────────────── */
+  .input-standard {
+    @apply w-full bg-ivory border border-border-cream rounded-md px-4 py-3 font-franklin text-base text-on-surface placeholder:text-stone-gray focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/30 transition-all duration-200;
+    font-family: 'Libre Franklin', Arial, sans-serif;
+  }
+
+  .input-title {
+    @apply w-full bg-ivory border border-border-cream rounded-md px-4 py-3 font-literata text-2xl text-on-surface placeholder:text-stone-gray focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/30 transition-all duration-200;
+    font-family: 'Literata', Georgia, serif;
+    font-size: 26px;
+  }
+
+  /* ── Tags / Chips ────────────────────────────────────────────────── */
+  .tag-chip {
+    @apply inline-flex items-center px-4 py-1.5 rounded-full bg-warm-sand text-olive-gray font-franklin font-medium text-sm transition-colors duration-200;
+    font-family: 'Libre Franklin', Arial, sans-serif;
+  }
+
+  .tag-chip-active {
+    @apply inline-flex items-center px-4 py-1.5 rounded-full bg-primary-container text-on-primary-container font-franklin font-medium text-sm transition-colors duration-200;
+    font-family: 'Libre Franklin', Arial, sans-serif;
+  }
+
+  /* ── Separator ───────────────────────────────────────────────────── */
+  .section-separator {
+    @apply w-full h-px bg-border-cream;
+  }
+
+  /* ── Recipe meta bar ─────────────────────────────────────────────── */
+  .meta-bar {
+    @apply flex flex-wrap items-center gap-6 py-4 border-y border-border-cream;
+  }
+
+  .meta-item {
+    @apply flex flex-col gap-0.5;
+  }
+
+  .meta-label {
+    @apply overline-text text-stone-gray;
+  }
+
+  .meta-value {
+    @apply font-franklin font-medium text-sm text-on-surface;
+    font-family: 'Libre Franklin', Arial, sans-serif;
+  }
+}
