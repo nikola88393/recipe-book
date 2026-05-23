@@ -1,7 +1,11 @@
 import type { Ingredient } from '../db';
 import type { User } from 'firebase/auth';
 
-const SERVER_URL = (import.meta.env.VITE_SERVER_URL as string | undefined) ?? 'http://localhost:3001';
+const rawServerUrl = import.meta.env.VITE_SERVER_URL as string | undefined;
+const SERVER_URL = rawServerUrl === '/' || rawServerUrl === '' 
+  ? '' 
+  : (rawServerUrl ?? 'http://localhost:3001');
+
 
 export interface ImportedRecipe {
   id?: string;            // Firestore doc ID, present after successful save

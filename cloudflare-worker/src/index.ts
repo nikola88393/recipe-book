@@ -28,6 +28,49 @@ function jsonError(status: number, message: string): Response {
 
 export default {
   async fetch(request: Request, env: Env): Promise<Response> {
+    const urlObj = new URL(request.url);
+    const { pathname } = urlObj;
+
+    // ── Groq API Proxy ──────────────────────────────────────────────────────
+    if (pathname.startsWith('/groq')) {
+      const incomingSecret = request.headers.get('X-Custom-Proxy-Key');
+      if (!incomingSecret || !env.AUTH_SECRET_KEY) {
+        return jsonError(401, 'Unauthorized: missing proxy key.');
+      }
+      if (incomingSecret !== env.AUTH_SECRET_KEY) {
+        return jsonError(401, 'Unauthorized: invalid proxy key.');
+      }
+
+      // Build target URL (e.g. /groq/chat/completions -> https://api.groq.com/openai/v1/chat/completions)
+      const targetPath = pathname.slice('/groq'.length);
+      const targetUrl = new URL(`https://api.groq.com/openai/v1${targetPath}${urlObj.search}`);
+
+      // Clone and clean headers
+      const headers = new Headers(request.headers);
+      headers.delete('X-Custom-Proxy-Key');
+      headers.set('Host', 'api.groq.com');
+
+      try {
+        const response = await fetch(targetUrl.toString(), {
+          method: request.method,
+          headers,
+          body: request.body,
+        });
+
+        const resHeaders = new Headers(response.headers);
+        resHeaders.set('Access-Control-Allow-Origin', '*');
+
+        return new Response(response.body, {
+          status: response.status,
+          statusText: response.statusText,
+          headers: resHeaders,
+        });
+      } catch (err: unknown) {
+        const msg = err instanceof Error ? err.message : String(err);
+        return jsonError(502, `Failed to proxy Groq: ${msg}`);
+      }
+    }
+
     // ── Only POST is accepted ─────────────────────────────────────────────
     if (request.method === 'OPTIONS') {
       return new Response(null, { status: 204 });

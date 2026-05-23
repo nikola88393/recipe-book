@@ -79,7 +79,20 @@ export async function extractRecipeWithGroq(
   pageText: string,
   apiKey: string,
 ): Promise<ExtractedRecipe> {
-  const groq = new Groq({ apiKey });
+  const workerUrl = process.env.CLOUDFLARE_WORKER_URL ?? '';
+  const workerSecret = process.env.CLOUDFLARE_WORKER_SECRET ?? '';
+
+  const groqOptions: any = { apiKey };
+
+  if (workerUrl && workerSecret) {
+    const cleanUrl = workerUrl.endsWith('/') ? workerUrl.slice(0, -1) : workerUrl;
+    groqOptions.baseURL = `${cleanUrl}/groq`;
+    groqOptions.defaultHeaders = {
+      'X-Custom-Proxy-Key': workerSecret,
+    };
+  }
+
+  const groq = new Groq(groqOptions);
 
   const completion = await groq.chat.completions.create({
     model: 'llama-3.1-8b-instant',
