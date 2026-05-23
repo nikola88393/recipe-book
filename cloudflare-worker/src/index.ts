@@ -43,7 +43,7 @@ export default {
 
       // Build target URL (e.g. /groq/chat/completions -> https://api.groq.com/openai/v1/chat/completions)
       const targetPath = pathname.slice('/groq'.length);
-      const targetUrl = new URL(`https://api.groq.com/openai/v1${targetPath}${urlObj.search}`);
+      const targetUrl = new URL(`https://api.groq.com/${targetPath}${urlObj.search}`);
 
       // Clone and clean headers
       const headers = new Headers(request.headers);
